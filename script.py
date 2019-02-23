@@ -23,6 +23,12 @@ access_token = access_token_dict['access_token']
 session.headers.update({'Authorization':'Bearer '+ access_token})
 
 # test API connectivity
-request_url = 'https://api.marquee.gs.com/simple-api-test/v1/test'
-request = session.get(url=request_url)
-print(request.text)
+request_url = 'https://api.marquee.gs.com/v1/data/USCANFPP_MINI/query'
+request_query = {
+                    "startDate": "2017-01-15",
+                    "endDate":"2018-01-15"
+               }
+request = session.post(url=request_url, json=request_query)
+results = json.loads(request.text)
+with open("data.json", "w") as data:
+    data.write(json.dumps(results, indent=4))
